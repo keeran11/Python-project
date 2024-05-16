@@ -1,0 +1,63 @@
+{% extends 'Backend/main.html' %}
+
+{% load static %}
+
+{% block title %} Room List{% endblock %}
+
+{% block body %}
+<section>
+                    <div class="section-body">
+                        <!-- BEGIN DATATABLE 2 -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-head style-primary">
+                                        <header>Room Type Details</header>
+                                        <div class="tools">
+                                            <a class="btn btn-icon-toggle btn-collapse"><i class="fa fa-angle-down"></i></a>
+                                            <a class="btn btn-icon-toggle btn-close"><i class="md md-close"></i></a>
+                                        </div>
+                                    </div>
+                                    <br>
+
+
+
+                            <div class="card-body ">
+                                        <div class="table-responsive">
+
+      <div> Check In :
+            <a href="{% url 'payment:CheckInDetailView' checkout.check_in.id %}">{{ checkout.id }}</a>
+        </div>
+        <div>Stay Duration:
+            {{checkout.stay_duration}}
+        </div>
+        <div>Total Amount = {{checkout.total_amount}}</div>
+        <div>Pay Amount = {{checkout.pay_amount}}</div>
+        <div>Check Out Date Time = {{checkout.check_out_date_time}}</div>
+        <div>
+            Checked Out By: {% if staff.count == 0%}
+            {{checkout.user}}
+            {% else %}
+            <a href="{% url 'myapp:StaffDetailView' staff.staff_id %}">{{staff}}</a>
+            {% endif %}
+        </div>
+
+
+
+
+                                      </div>
+
+
+
+                                        </div><!--end .table-responsive -->
+
+
+                                </div>
+                            </div><!--end .col -->
+                        </div><!--end .row -->
+                        <!-- END DATATABLE 2 -->
+
+                    </div><!--end .section-body -->
+                </section>
+
+{% endblock%}

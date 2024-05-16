@@ -1,0 +1,156 @@
+ {% extends 'Backend/main.html' %}
+
+
+{% block title %} Add Order {% endblock %}
+
+{% block body %}
+ <style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.flip-box {
+  background-color: transparent;
+  width: 300px;
+  height: 200px;
+  border: 1px solid #f1f1f1;
+  perspective: 1000px;
+}
+
+.flip-box-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.flip-box:hover .flip-box-inner {
+  transform: rotateX(180deg);
+}
+
+.flip-box-front, .flip-box-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.flip-box-front {
+  background-color: #bbb;
+  color: black;
+}
+
+.flip-box-back {
+  background-color: dodgerblue;
+  color: white;
+  transform: rotateX(180deg);
+}
+</style>
+    <section>
+					<div class="section-body">
+						<div class="row">
+							<!-- BEGIN  - FORM -->
+							<div class="col-lg-12">
+								<div class="card">
+									<div class="card-head style-primary">
+
+										<header>Checkin Index</header>
+										<div class="tools">
+											<a class="btn btn-icon-toggle btn-collapse"><i class="fa fa-angle-down"></i></a>
+											<a class="btn btn-icon-toggle btn-close"><i class="md md-close"></i></a>
+										</div>
+									</div>
+									<div class="card-body">
+
+										 <div class="content">
+
+
+
+
+			 <div class="col-lg-4 col-md-6 col-sm-6">
+							<div class="flip-box">
+						  <div class="flip-box-inner">
+							<div class="flip-box-front">
+							  <h2>Total Check In</h2>
+								 <h2>{{total_check_in}}</h2>
+							</div>
+							<div class="flip-box-back">
+								<h2>Total Check In</h2>
+							  <h2>{{total_check_in}}</h2>
+
+							</div>
+						  </div>
+						</div>
+                            </div>
+                        
+                           
+
+                         
+
+
+
+						<div class="col-lg-3 col-md-6 col-sm-6">
+                            <div class="card">
+								<div class="content">
+									<div class="row">
+										<div class="col-xs-5">
+											<div class="icon-big icon-danger text-center">
+												<i class="ti-receipt"></i>
+											</div>
+										</div>
+										<div class="col-xs-7">
+											<div class="numbers">
+												<p>Last Check-In:</p>
+                                                {% if last_checked_in.id %}
+												<p>{{last_checked_in}}</p>
+                                                {% else %}
+                                                <h6>Not Yest</h6>
+                                                {% endif %}
+											</div>
+										</div>
+									</div>
+								</div>
+                                <div class="card-footer">
+                                    <div class="stats">
+                                        <i class="ti-tag text-warning"></i> Last Check-In
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        </div>
+
+
+
+
+
+
+                    </div>
+ </div>
+									</div><!--end .card-body -->
+								</div><!--end .card -->
+							</div><!--end .col -->
+							<!-- END FORM - TIME ON SITE -->
+
+						</div><!--end .row -->
+					</div><!--end .section-body -->
+				</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

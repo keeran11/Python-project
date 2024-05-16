@@ -1,0 +1,127 @@
+{% extends 'Backend/main.html' %}
+
+{% load static %}
+
+{% block title %} Room List{% endblock %}
+
+{% block body %}
+
+  {% if checkin_list %}
+        <form action="" method="post" id="checkout">{% csrf_token %}
+            {{ form }}
+        </form>
+
+<section>
+                    <div class="section-body">
+                        <!-- BEGIN DATATABLE 2 -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-head style-primary">
+                                        <header>All CheckIn List</header>
+                                        <div class="tools">
+                                            <a class="btn btn-icon-toggle btn-collapse"><i class="fa fa-angle-down"></i></a>
+                                            <a class="btn btn-icon-toggle btn-close"><i class="md md-close"></i></a>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <a style="padding-left: 20px;" href="{% url 'myapp:ReservationListView' %}"><button type="button" class="btn btn-success">CheckIn?</button></a>
+
+           <div class="card-body">
+                                        <div class="table-responsive">
+                                    <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Check-In</th>
+                <th>Reservation</th>
+                <th>Rooms</th>
+                <th>Paid Amount</th>
+                <th>Check-In Date Time</th>
+                <th>Checkout?</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for check_in in checkin_list %}
+                <tr class="gradeX">
+                    <td>
+                        <a href="{% url 'payment:CheckInDetailView' check_in.id %}"> {{ check_in }}</a>
+                    </td>
+                    <td>{{ check_in.reservation }}</td>
+                    <td>{% if check_in.rooms %}{{ check_in.rooms }}{% else %}-{% endif %}</td>
+                    <td>{{ check_in.initial_amount }}</td>
+                    <td>{{ check_in.check_in_date_time }}</td>
+                    <td>
+                        {% if not check_in.checkout %}
+                            <button id="{{ check_in.id }}" type="button" class="btn btn-primary confirm-checkout"
+                                    data-toggle="modal"
+                                    data-target="#checkoutConfirmBox">
+                                Checkout
+                            </button>
+
+                        {% else %}
+<!--                            <a  style="color:blue;" class="btn btn-secondary"-->
+<!--                               href="{% url 'payment:CheckInDetailView' check_in.id %}">Details</a>-->
+                        <a href="{% url 'payment:CheckInDetailView' check_in.id %}" class="btn ink-reaction btn-floating-action btn-primary"><i class="md md-send"></i> </a>
+                        <a href="{% url 'payment:checkin_show' check_in.id %}" class="btn ink-reaction btn-floating-action btn-primary"><i class="md md-print"></i> </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+                                        </div>
+           </div>
+
+        <div class="modal fade" id="checkoutConfirmBox">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Confirm Checkout</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <h5>Do you want to confirm checkout?</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" form="checkout">
+                            Yes
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p>There are no check-ins.</p>
+    {% endif %}
+
+
+                                        </div><!--end .table-responsive -->
+                                    </div>   
+
+                                </div>       
+                            </div><!--end .col -->
+                        </div><!--end .row -->
+                        <!-- END DATATABLE 2 -->
+
+                    </div><!--end .section-body -->
+                </section>
+
+
+  
+       
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>  
+ <script>
+            $(document).ready(function () {
+                $(".confirm-checkout").click(function () {
+                    var $id = $(this).attr("id");
+                    $("#id_check_in").attr("value", "" + $id);
+                });
+            });
+
+        </script>
+
+
+
+{% endblock %}

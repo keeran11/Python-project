@@ -1,0 +1,125 @@
+
+{% extends 'Backend/main.html' %}
+
+{% load static %}
+
+{% block title %} Room List{% endblock %}
+
+{% block body %}
+
+  {% if reservation_list %}
+        <form action="{% url 'myapp:ReservationListView' %}" method="POST" id="checkin">
+            {% csrf_token %}
+        {{ form }}
+    </form>
+
+<section>
+                    <div class="section-body">
+                        <!-- BEGIN DATATABLE 2 -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-head style-primary">
+                                        <header>All CheckIn List</header>
+                                        <div class="tools">
+                                            <a class="btn btn-icon-toggle btn-collapse"><i class="fa fa-angle-down"></i></a>
+                                            <a class="btn btn-icon-toggle btn-close"><i class="md md-close"></i></a>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <a style="padding-left: 20px;" href="{% url 'payment:CheckinListView' %}"><button type="button" class="btn btn-success">CheckOut?</button></a>
+
+                                    <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Reservation ID</th>
+                                    <th>Customer</th>
+                                    <th>Staff</th>
+                                    <th>No of Children</th>
+                                    <th>No of Adults</th>
+                                    <th>Rooms</th>
+                                    <th>Reservation Date Time</th>
+                                    <th>Check In?</th>
+                                </tr>
+                                </thead>
+            <tbody>
+            {% for reservation in reservation_list %}
+                <tr >
+                    <td style="text-align: center; ">
+                        <a href="{% url 'myapp:ReservationDetailView' reservation.reservation_id%}"> {{ reservation.reservation_id }}</a>
+                    </td>
+                    <td>{{ reservation.customer }}</td>
+                    <td>{{ reservation.staff }}</td>
+                    <td style="text-align: center; ">{{ reservation.no_of_childrens }}</td>
+                    <td style="text-align: center; ">{{ reservation.no_of_adults }}</td>
+                    <td>
+                        {% for room in reservation.room_set.all %}
+                            {{ room.room_no }}{% if not forloop.last %},{% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>{{ reservation.reservation_date_time }}</td>
+                    <td>{% if not reservation.checkin %}
+                        <button id="{{ reservation.reservation_id }}" type="button" class="btn btn-primary confirm-checkin"
+                                data-toggle="modal"
+                                data-target="#checkInConfirmBox">
+                            Check-In
+                        </button>
+
+                    {% else %}
+                        <a style="color:blue;"class="btn btn-secondary"
+                           href="{% url 'payment:CheckInDetailView' reservation.checkin.id %}">Details</a>
+                    {% endif %}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+         <div class="modal fade" id="checkInConfirmBox">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Confirm Check-In</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <h5>Do you want to confirm check-in?</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" form="checkin">
+                            Yes
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <p>There are no check-ins.</p>
+    {% endif %}
+
+                                        </div><!--end .table-responsive -->
+                                    </div>   
+
+                                </div>       
+                            </div><!--end .col -->
+                        </div><!--end .row -->
+                        <!-- END DATATABLE 2 -->
+
+                    </div><!--end .section-body -->
+                </section>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>  
+<script>
+        $(document).ready(function () {
+            $(".confirm-checkin").click(function () {
+                var $id = $(this).attr("id");
+                $("#id_reservation").attr("value", $id);
+            });
+        });
+</script>
+
+
+{% endblock %}
+

@@ -1,0 +1,94 @@
+{% extends 'Backend/main.html' %}
+
+{% load static %}
+
+{% block title %} Room List{% endblock %}
+
+{% block body %}
+
+
+      <section>
+                    <div class="section-body">
+                        <!-- BEGIN DATATABLE 2 -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-head style-primary">
+                                        <header>Room Type List</header>
+                                        <div class="tools">
+                                            <a class="btn btn-icon-toggle btn-collapse"><i class="fa fa-angle-down"></i></a>
+                                            <a class="btn btn-icon-toggle btn-close"><i class="md md-close"></i></a>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <a href="{% url 'myapp:AddRoomType' %}"><button type="button" class="btn btn-success">New Room Type Add</button></a>
+
+                                     {% if roomtype_list%}
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="datatable2" class="table order-column hover">
+                                                <thead>
+                                                    <tr>
+
+                                                    <th>ID</th>
+                                                    <th>Name</th>
+                                                    <th>Price</th>
+                                                    <th>Size</th>
+                                                    <th>Capacity</th>
+                                                    <th>Pets</th>
+                                                    <th>Breakfast</th>
+                                                    
+                                                    <th>extras</th>
+                                                    <th width="150px">Buttons</th>
+                                                        
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                     {% for i in roomtype_list %}
+                                                     
+                                                        <tr class="gradeX">
+                                                           
+                                                    <td>{{i.room_type_id}}</td>
+                                                    <td>{{i.name}}</td>
+                                                    <td>{{i.price}}</td>
+                                                    <td>{{i.size}}</td>
+                                                    <td>{{i.capacity}}</td>
+                                                    <td>{{i.pets}}</td>
+                                                    <td>{{i.breakfast}}</td>
+                                                    
+                                                    <td>
+                    
+                                                    {% for j in i.extras.all %}
+                                                    
+                                                       {{j.name}}
+                                                       {% if not forloop.last %},{% endif %}
+                                                    {% endfor %}
+                                                    </td>       
+                                                            <td>
+                                                                <a href="{% url 'myapp:EditRoomType' i.room_type_id %}" class="btn ink-reaction btn-floating-action btn-warning"><i class="md md-edit"></i> </a>
+
+                                                                 <a href="{% url 'myapp:RoomTypeDetail' i.room_type_id %}" class="btn ink-reaction btn-floating-action btn-warning"><i class="md md-send"></i> </a>
+                                                            </td>
+                                                          
+                                                        </tr>
+
+                                                    {% endfor %}
+                                                </tbody>
+                                                       {% else %}
+                                                         <p>There are no Facility.....</p>
+                                                        {% endif %}
+                                            </table>
+                                        </div><!--end .table-responsive -->
+                                    </div>   
+
+                                </div>       
+                            </div><!--end .col -->
+                        </div><!--end .row -->
+                        <!-- END DATATABLE 2 -->
+
+                    </div><!--end .section-body -->
+                </section>
+
+
+
+{% endblock%}

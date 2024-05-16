@@ -1,0 +1,15 @@
+{% extends 'Backend/main.html' %}
+{% load i18n %}
+<h1>Reservation Successful</h1>
+{% block desplay %}
+
+    <div class="container">
+
+        <div class="card">
+             <div class="card-header bg.success">Reservation ID: {{ reservation.reservation_id }}</div>
+            <div class="card-body bg.primary">Customer: <a href="">{{ reservation.customer }}</a>
+            </div>
+            <div class="card-footer bg.info">Reserved by: <a href="">{{ reservation.staff }}</a></div>
+  </div>
+</div>
+{% endblock %}
